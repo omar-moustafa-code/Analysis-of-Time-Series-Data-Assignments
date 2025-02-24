@@ -1,0 +1,98 @@
+---
+title: "MACT 4232 (Time Series) - Assignment 1"
+author: Omar Moustafa 900222400
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+setwd("/Users/omar/desktop")
+getwd()
+```
+
+
+Question 1:
+Use R to plot the time series and comment on any trends or other features of the data
+```{r}
+# Read the data
+
+ # 'scan' is the same as read.csv, read.excel, read.table, etc., but it's used for UNIVARIATE data
+
+df = scan("global_temps.dat")
+```
+
+
+```{r}
+head(df)
+```
+
+
+```{r}
+# 'ts' is short for time series 
+
+# frequency = 1 because we're dealing with ANUAL data
+
+# start = c(1975) because the starting year is 1975 and the starting month is unknown
+
+df_ts = ts(df, frequency = 1, start = c(1975))
+
+# Plot the time series data
+plot.ts(df_ts, main = "Global Temperatures", xlab = "Time", ylab = "Values")
+```
+
+Comments on the trends & other features of the data:
+
+This data is more suitable for the additive model rather than the multiplicative model. This is because, the data exhibits an overall increasing trend indicating that the global temperatures increase over time. With that said, this particular trend is not perfectly increasing due to the noticeable fluctuations as there are a few clear peaks and dips which could be reflections of specific climate events.  
+
+
+Question 2:
+Use R to plot the series and a 4-point centered moving average. Is there any trend?
+```{r}
+df1 = scan("quarterly_arrivals_new_zealand.dat")
+```
+
+
+```{r}
+head(df1)
+```
+
+
+```{r}
+# frequncy = 4 because we're dealing with QUARTERLY data
+
+# start = c(1990, 1) because the starting year is 1990 and the starting month is March which falls in the FIRST quarter of the year
+
+df1_ts = ts(df1, frequency = 4, start = c(1990, 1))
+plot.ts(df1_ts)
+```
+
+```{r}
+View(df1)
+```
+
+
+```{r}
+# To get the Centered Moving Average (CMA) for quarterly data we use the following:
+
+# The standard for CMA is that sides = 2
+
+# The first argument of 'filter' is equal to 1/(2*n)
+
+n = 4 # This is also because we're dealing with quarterly data
+
+df1_ts.ma = filter(df1_ts, filter = c(1/8, rep(1/n, n-1), 1/8), sides = 2)
+
+plot.ts(df1_ts.ma, main = "4-Point Centered Moving Average", xlab = "Time", ylab = "Values")
+```
+
+
+Is there any trend? 
+
+Yes, there is indeed a trend, which is upward trend in the data over time. The 4-point CMA smooths out the short-term fluctuations and shows the overall trend and direction in the data over time, which is an increasing trend. There are some values that decrease slightly around 1990–1991 but then show a consistent increase from 1991 onwards, re-iterating that the existing trend is a rising one. 
+
+
+
+
