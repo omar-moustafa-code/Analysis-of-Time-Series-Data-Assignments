@@ -1,2 +1,2 @@
 # Analysis-of-Time-Series-Data-Practices
-Full list of programming assignments for the course: Analysis of Time Series Data
+Full list of programming assignments for the Mathematics course: Analysis of Time Series Data
